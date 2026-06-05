@@ -155,6 +155,16 @@ if (security.isRooted) {
 
 ---
 
+## 🗺️ Roadmap
+
+Here is what we plan to release in the upcoming versions:
+
+* **v1.1.0**: Biometric enrollment change locking & auto-invalidation on Root/Jailbreak.
+* **v1.2.0**: Hardware-backed asymmetric key pairs (ECC/RSA) & cryptographic request signing.
+* **v1.3.0**: Anti-screenshot, anti-screen recording blockers & session key validity duration.
+
+---
+
 ## 👤 Author
 
 Developed and maintained by [Hitesh Chhimpa](https://github.com/hituchhimpa7).
