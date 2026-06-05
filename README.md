@@ -33,6 +33,21 @@ cd ios && pod install
 
 ---
 
+## ⚙️ Configuration
+
+### iOS Setup (Mandatory)
+For Face ID to work on iOS, you **must** add `NSFaceIDUsageDescription` to your application's `ios/YourAppName/Info.plist` file. If this is missing, the app will crash during biometric verification.
+
+```xml
+<key>NSFaceIDUsageDescription</key>
+<string>This app requires Face ID permission to securely authenticate and access your credentials.</string>
+```
+
+### Android Setup
+No manual manifest setup is required. The library automatically bundles the required Android Biometric permissions.
+
+---
+
 ## 🚀 Usage
 
 ### 1. Store & Retrieve with Biometric Protection
@@ -102,6 +117,15 @@ const checkDeviceSecurity = () => {
   */
 };
 ```
+
+---
+
+## 🛡️ Under the Hood: Security Architecture
+
+Here is how your data is secured at the hardware level:
+
+* **Android Keystore (TEE/StrongBox)**: When biometric auth is enabled, the library generates a 256-bit AES key and locks it behind OS biometric policy requirements (`setUserAuthenticationRequired(true)`). When disabled, the key is generated in hardware but unlocked silently when the device is unlocked.
+* **iOS Secure Enclave**: On FaceID-enabled devices, keys are generated inside the physical Secure Enclave. Access is restricted using Keychain Access Control flags (`kSecAttrAccessControl` with `.userPresence`).
 
 ---
 
