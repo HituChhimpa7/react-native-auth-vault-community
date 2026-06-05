@@ -1,7 +1,7 @@
 # 🛡️ React Native Auth Vault
 
 [![npm version](https://img.shields.io/npm/v/@hituchhimpa/react-native-auth-vault.svg?style=flat-square)](https://www.npmjs.com/package/@hituchhimpa/react-native-auth-vault)
-[![license](https://img.shields.io/npm/l/@hituchhimpa/react-native-auth-vault.svg?style=flat-square)](LICENSE)
+[![license](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](LICENSE)
 [![platform](https://img.shields.io/badge/platform-ios%20%7C%20android-blue.svg?style=flat-square)](#)
 
 A premium, native-first security and authentication library for React Native. Provides secure, hardware-backed cryptographic storage and runtime security auditing for enterprise-grade mobile applications.
