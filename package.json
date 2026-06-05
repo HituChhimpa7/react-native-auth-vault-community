@@ -1,6 +1,6 @@
 {
   "name": "@hituchhimpa/react-native-auth-vault",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Native-first React Native security and authentication library",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
@@ -40,7 +40,27 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "security",
+    "authentication",
+    "biometrics",
+    "keychain",
+    "keystore",
+    "secure-storage",
+    "faceid",
+    "touchid",
+    "encryption",
+    "decryption",
+    "cryptography",
+    "secure-enclave",
+    "strongbox",
+    "credentials",
+    "auth",
+    "token-storage",
+    "jailbreak-detection",
+    "root-detection",
+    "device-security",
+    "audit"
   ],
   "repository": {
     "type": "git",
