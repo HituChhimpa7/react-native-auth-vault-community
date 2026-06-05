@@ -151,3 +151,7 @@ Developed and maintained by [Hitesh Chhimpa](https://github.com/hituchhimpa7).
 ## 📄 License
 
 MIT
+
+---
+
+<p align="center">Made with ❤️ by <a href="https://github.com/hituchhimpa7">Hitesh Chhimpa</a></p>
