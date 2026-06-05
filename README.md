@@ -1,20 +1,54 @@
 # 🛡️ React Native Auth Vault
 
-[![npm version](https://img.shields.io/npm/v/@hituchhimpa/react-native-auth-vault.svg?style=flat-square)](https://www.npmjs.com/package/@hituchhimpa/react-native-auth-vault)
-[![license](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](LICENSE)
-[![platform](https://img.shields.io/badge/platform-ios%20%7C%20android-blue.svg?style=flat-square)](#)
+A native-first security and authentication library for React Native that leverages the Android Keystore, StrongBox, and iOS Secure Enclave to protect sensitive application data.
 
-A premium, native-first security and authentication library for React Native. Provides secure, hardware-backed cryptographic storage and runtime security auditing for enterprise-grade mobile applications.
+Built for applications that require secure credential storage, biometric authentication, encrypted local secrets, and runtime security auditing.
+
+---
+
+## Why Auth Vault?
+
+Most secure-storage libraries only encrypt data. Auth Vault goes further by:
+
+* 🔐 **Hardware-Backed Protection**: Keeping cryptographic keys inside hardware-backed security modules whenever available.
+* 👆 **Biometrics Integration**: Supporting Face ID, Touch ID, and Android Biometrics out of the box.
+* ⚡ **Silent Encryption**: Allowing silent encryption for background operations without showing user prompts.
+* 🛡️ **Security Posture Checks**: Auditing device security posture before performing sensitive actions.
+* 🧵 **Native Performance**: Executing cryptographic operations natively on separate threads for improved performance.
 
 ---
 
 ## ✨ Features
 
-* 🔑 **Hardware-Backed Encryption**: Private keys are generated and stored securely inside the **Android Keystore (TEE/StrongBox)** and **iOS Secure Enclave**.
-* 👤 **Biometric Protection**: FaceID, TouchID, and Android BiometricPrompt integration with customizable user prompts.
-* ⚡ **Optional Biometrics**: Supports both biometric-authenticated operations and high-performance silent hardware encryption (no prompts).
-* 🛡️ **Security Auditing**: Run real-time checks to inspect device integrity (e.g. root/jailbreak detection, device passcode setup, biometrics status).
-* 🧵 **Thread Safe & Native**: Constructed using React Native's modern architecture, executing complex cryptographic tasks on native threads.
+### 🔑 Hardware-Backed Key Protection
+Uses Android Keystore (TEE/StrongBox) and iOS Secure Enclave to generate and protect encryption keys.
+
+### 👤 Biometric Authentication
+Authenticate using Face ID, Touch ID, Fingerprint, or device credentials.
+
+### ⚡ Silent Secure Storage
+Store and retrieve encrypted secrets without displaying biometric prompts when appropriate.
+
+### 🛡️ Security Auditing
+Inspect device security status including:
+* Root/Jailbreak detection
+* Device lock screen configuration
+* Biometric enrollment
+* Hardware-backed key availability
+
+### 📱 Native Performance
+Runs cryptographic operations on native threads with React Native's modern architecture.
+
+---
+
+## 📱 Platform Support
+
+| Platform | Supported |
+|-----------|-----------|
+| Android | ✅ |
+| iOS | ✅ |
+| React Native New Architecture | ✅ |
+| TypeScript | ✅ |
 
 ---
 
@@ -56,89 +90,68 @@ Prompt the user for biometrics (Face ID/Touch ID/Fingerprint/Passcode) to unlock
 ```typescript
 import { AuthVault } from '@hituchhimpa/react-native-auth-vault';
 
-// Store a value securely (triggers biometric prompt)
-const saveSecureToken = async (token: string) => {
-  try {
-    const success = await AuthVault.setItem(
-      'user_token',
-      token,
-      'Scan fingerprint to secure your credentials'
-    );
-    if (success) console.log('Stored securely!');
-  } catch (error) {
-    console.error('Storage failed:', error);
-  }
-};
+// Save securely with biometrics
+await AuthVault.setItem(
+  'token',
+  jwt,
+  'Authenticate to save credentials'
+);
 
-// Retrieve a value (triggers biometric prompt)
-const getSecureToken = async () => {
-  try {
-    const token = await AuthVault.getItem(
-      'user_token',
-      'Scan fingerprint to access your account'
-    );
-    console.log('Retrieved Token:', token);
-  } catch (error) {
-    console.error('Failed to unlock token:', error);
-  }
-};
+// Retrieve securely
+const token = await AuthVault.getItem(
+  'token',
+  'Authenticate to continue'
+);
 ```
 
 ### 2. Silent Hardware-Backed Storage (Optional Biometrics)
-Encrypt and store keys using hardware cryptoprocessors (Secure Enclave / TEE) **silently** without prompting the user. Perfect for API request signing, background session tokens, or caching:
+Encrypt and store keys using hardware cryptoprocessors (Secure Enclave / TEE) **silently** without prompting the user:
 
 ```typescript
-// Pass an empty string `""` as the prompt to bypass the biometric UI
-const saveSilentToken = async (token: string) => {
-  await AuthVault.setItem('api_key', token, '');
-};
+// Silent hardware-backed encryption
+await AuthVault.setItem('api_key', apiKey, '');
 
-const getSilentToken = async () => {
-  const token = await AuthVault.getItem('api_key', '');
-  return token; // Returns the token silently
-};
+const apiKey = await AuthVault.getItem('api_key', '');
 ```
 
 ### 3. Device Security Auditing
 Get security metrics to decide whether your app should run or restrict sensitive actions:
 
 ```typescript
-const checkDeviceSecurity = () => {
-  const audit = AuthVault.audit();
-  console.log(audit);
-  /* 
-    Output:
-    {
-      isRooted: false,           // Root/Jailbreak status
-      hasPin: true,              // Device lock (PIN/Password) setup
-      biometricsEnabled: true,   // Biometrics enrollment status
-      hardwareBacked: true       // Key storage hardware backing status
-    }
-  */
-};
+const security = AuthVault.audit();
+
+if (security.isRooted) {
+  console.warn('Untrusted device detected');
+}
 ```
 
 ---
 
-## 🛡️ Under the Hood: Security Architecture
+## 🔒 Security Architecture
 
-Here is how your data is secured at the hardware level:
+### Android
+* Keys generated inside Android Keystore
+* StrongBox support where available
+* Optional biometric-gated key access
+* AES-256 encryption
 
-* **Android Keystore (TEE/StrongBox)**: When biometric auth is enabled, the library generates a 256-bit AES key and locks it behind OS biometric policy requirements (`setUserAuthenticationRequired(true)`). When disabled, the key is generated in hardware but unlocked silently when the device is unlocked.
-* **iOS Secure Enclave**: On FaceID-enabled devices, keys are generated inside the physical Secure Enclave. Access is restricted using Keychain Access Control flags (`kSecAttrAccessControl` with `.userPresence`).
+### iOS
+* Keys protected by Secure Enclave
+* Keychain Access Control integration
+* Face ID / Touch ID protected operations
+* User presence verification support
 
 ---
 
-## 🛠️ API Reference
+## 🚀 Common Use Cases
 
-| Method | Type | Description |
-| :--- | :--- | :--- |
-| `setItem(key, value, prompt)` | `Promise<boolean>` | Encrypts and saves `value` locally. Pass non-empty `prompt` for biometrics, or `""` for silent encryption. |
-| `getItem(key, prompt)` | `Promise<string \| null>` | Decrypts and retrieves `value`. Pass non-empty `prompt` for biometrics, or `""` for silent decryption. |
-| `removeItem(key)` | `Promise<boolean>` | Deletes the stored key and encrypted value from device. |
-| `encrypt(plainText, prompt)` | `Promise<string>` | Encrypts raw text and returns a base64 cipher payload. |
-| `decrypt(base64Text, prompt)` | `Promise<string>` | Decrypts a base64 cipher payload back to plain text. |
-| `audit()` | `Object` | Runs security checks on the device hardware and environment. |
+* Storing JWT access tokens
+* Refresh token protection
+* API request signing
+* Local credential storage
+* Banking and fintech applications
+* Healthcare applications
+* Enterprise authentication workflows
 
 ---
 
