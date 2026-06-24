@@ -16,7 +16,7 @@ Replace 5+ separate security packages with a single, production-hardened SDK bui
 `react-native-auth-vault` provides bank-grade biometric encryption, secure in-memory storage (never exposed to the JavaScript heap), runtime threat detection (debugger, hooking, tamper, emulator, and jailbreak/root), device attestation, and hardware-backed request signing.
 
 <p align="center">
-  <img src="./assets/auth_vault_mockup.png" width="450" alt="react-native-auth-vault mockup" />
+  <img src="https://raw.githubusercontent.com/HituChhimpa7/react-native-auth-vault-community/main/assets/auth_vault_mockup.png" width="450" alt="react-native-auth-vault mockup" />
 </p>
 
 ---
