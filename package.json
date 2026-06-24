@@ -1,8 +1,9 @@
 {
   "name": "@hituchhimpa/react-native-auth-vault",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Native-first React Native security and authentication library",
   "main": "./lib/module/index.js",
+  "expo": "./app.plugin.js",
   "types": "./lib/typescript/src/index.d.ts",
   "exports": {
     ".": {
@@ -32,7 +33,8 @@
   "scripts": {
     "example": "yarn workspace @hituchhimpa/react-native-auth-vault-example",
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
-    "prepare": "bob build",
+    "prepare": "bob build && yarn build:plugin",
+    "build:plugin": "tsc --project plugin/tsconfig.json",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "test": "jest"
@@ -79,6 +81,7 @@
     "@eslint/compat": "^2.0.3",
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",
+    "@expo/config-plugins": "^56.0.9",
     "@jest/globals": "^30.0.0",
     "@react-native/babel-preset": "0.85.0",
     "@react-native/eslint-config": "0.85.0",
@@ -153,5 +156,27 @@
       "jest"
     ],
     "version": "0.62.0"
+  },
+  "react-native": {
+    "crypto": "react-native-crypto",
+    "http": "@tradle/react-native-http",
+    "https": "https-browserify",
+    "_stream_transform": "readable-stream/transform",
+    "_stream_readable": "readable-stream/readable",
+    "_stream_writable": "readable-stream/writable",
+    "_stream_duplex": "readable-stream/duplex",
+    "_stream_passthrough": "readable-stream/passthrough",
+    "stream": "stream-browserify"
+  },
+  "browser": {
+    "_stream_duplex": "readable-stream/duplex",
+    "_stream_passthrough": "readable-stream/passthrough",
+    "_stream_readable": "readable-stream/readable",
+    "_stream_transform": "readable-stream/transform",
+    "_stream_writable": "readable-stream/writable",
+    "crypto": "react-native-crypto",
+    "http": "@tradle/react-native-http",
+    "https": "https-browserify",
+    "stream": "stream-browserify"
   }
 }
